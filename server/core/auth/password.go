@@ -2,8 +2,11 @@ package auth
 
 import (
 	"crypto/rand"
+	"crypto/subtle"
 	"encoding/base64"
 	"fmt"
+	"log/slog"
+	"strings"
 
 	"golang.org/x/crypto/argon2"
 )
@@ -47,4 +50,33 @@ func HashPassword(password string, params *Params) (string, error) {
 		b64Hash,
 	)
 	return encoded, nil
+}
+
+func VerifyPassword(password, encodedHash string) (bool, error) {
+	parts := strings.Split(encodedHash, "$")
+	if len(parts) != 5 {
+		slog.Error("invalid hash format", "parts", len(parts))
+		return false, fmt.Errorf("invalid hash format")
+	}
+
+	var memory uint32
+	var iterations uint32
+	var parallelism uint8
+
+	fmt.Sscanf(parts[2], "m=%d,t=%d,p=%d", &memory, &iterations, &parallelism)
+
+	salt, err := base64.RawStdEncoding.DecodeString(parts[3])
+	if err != nil {
+		return false, err
+	}
+
+	hash, err := base64.RawStdEncoding.DecodeString(parts[4])
+	if err != nil {
+		return false, err
+	}
+	newHash := argon2.IDKey([]byte(password), salt, iterations, memory, parallelism, uint32(len(hash)))
+	if subtle.ConstantTimeCompare(hash, newHash) == 1 {
+		return true, nil
+	}
+	return false, nil
 }
