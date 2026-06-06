@@ -1,0 +1,21 @@
+roles:
+  - name: admin
+    rules:
+      - resource: "*"
+        actions: ["*"]
+
+  - name: waiter
+    rules:
+      - resource: "orders"
+        actions: ["create", "read", "update"]
+      - resource: "menu"
+        actions: ["read"]
+      - resource: "billing"
+        actions: ["create"]
+
+  - name: cook
+    rules:
+      - resource: "orders"
+        actions: ["read", "update"]
+      - resource: "menu"
+        actions: ["read"]
