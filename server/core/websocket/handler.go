@@ -34,5 +34,7 @@ func WsHandler(hub *Hub) gin.HandlerFunc {
 			Conn: conn,
 		}
 		hub.Register(client, client.ID)
+		go client.Read()
+		go client.Write()
 	}
 }
