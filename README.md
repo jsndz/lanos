@@ -1,144 +1,196 @@
+# LANOS
 
-# Project 1 — Local Café Network System
+LANOS is a modular local-first application platform for physical spaces.
 
-Goal:
-Build a usable real-world product.
+It provides networking, identity, communication, access control, and application infrastructure as a reusable core that can be extended through modules.
 
-Focus:
-- captive portal
-- local hosting
-- QR onboarding
-- real-time dashboards
-- offline-first design
-
-Tech:
-- React PWA
-- Go backend
-- SQLite
-- hostapd
-- dnsmasq
-- WebSockets
-
-You learn:
-- networking basics
-- local infra
-- distributed UI updates
-- edge deployment
-
-Portfolio signal:
-“Built local-first hotspot-based business system.”
+Instead of building separate applications for cafés, hotels, campuses, events, and other environments, developers build modules on top of a shared platform.
 
 ---
 
-Yes. That is the correct approach.
+## What LANOS Provides
 
-Build the core platform first, then abstract deployment modes later.
+### Identity & Access
 
-Recommended architecture:
-
-```text id="jlwm1r"
-                CafeOS Core
-        ┌───────────────────────┐
-        │ Go Backend            │
-        │ React Frontend        │
-        │ SQLite                │
-        │ WebSocket Engine      │
-        │ Auth/RBAC             │
-        └───────────────────────┘
-                   ↓
-        Deployment Adapters
-   ┌──────────┬──────────┬──────────┐
-   │ Mobile   │ PC       │ Edge     │
-   │ Mode     │ Mode     │ Mode     │
-   └──────────┴──────────┴──────────┘
-```
-
-Build order:
-
-# Phase 1 — Core Backend
-
-Implement:
-
-* auth
-* menu management
-* ordering
-* billing
-* roles
-* websocket updates
-
-Do NOT think about networking yet.
+* Authentication
+* User management
+* Session management
+* Role-based access control (RBAC)
+* Device identification
+* Permission management
 
 ---
 
-# Phase 2 — React Frontend
-
-Build:
-
-* customer UI
-* waiter UI
-* kitchen UI
-* admin dashboard
-
-Make it:
-
-* responsive
-* PWA-ready
-
----
-
-# Phase 3 — Local Deployment
-
-Run:
-
-* Go server locally
-* SQLite locally
-* local Wi-Fi access
-
-Test:
-
-* multiple phones on same LAN
-
----
-
-# Phase 4 — Mobile Hosting Mode
-
-Experiment with:
-
-* Android hotspot
-* Go server on Android
-* local access through hotspot IP
-
-This itself becomes impressive.
-
----
-
-# Phase 5 — Captive Portal Integration
-
-Add:
+### Network Infrastructure
 
 * QR onboarding
-* local DNS redirect
-* auto-open flows
+* Wi-Fi onboarding
+* Captive portal management
+* Local DNS routing
+* Network policies
+* VLAN assignment
+* Device isolation
+* Firewall policies
 
 ---
 
-# Phase 6 — Advanced Networking
+### Communication
 
-Only later:
+* Event bus
+* WebSocket infrastructure
+* Real-time messaging
+* Notifications
+* Broadcast channels
 
-* VLANs
-* firewall rules
-* identity networking
-* LANOS concepts
+---
 
-Important architectural principle:
+### Application Runtime
 
-Everything should work even without:
+* Module system
+* Service registration
+* Configuration management
+* Shared storage
+* Lifecycle management
+* SDK for module development
 
-* captive portals
-* VLANs
-* hotspot control
+---
 
-Those should become optional infrastructure layers.
+### Local-First Operation
 
-This keeps the system portable and much easier to evolve.
+* Offline operation
+* Local application hosting
+* Edge deployment
+* Synchronization engine
+* Local data storage
+
+---
+
+## User Flow
+
+```text
+Scan QR
+    ↓
+Connect to Network
+    ↓
+Captive Portal
+    ↓
+Authentication
+    ↓
+Role Assignment
+    ↓
+Network Policies Applied
+    ↓
+Module Launched
+```
+
+---
+
+## Architecture
+
+```text
++-----------------------------------+
+|             Modules               |
+|-----------------------------------|
+| Cafe | Hotel | Retail | Campus    |
++-----------------------------------+
+                 ↑
++-----------------------------------+
+|          LANOS Runtime            |
+|-----------------------------------|
+| Module Loader                     |
+| Service Registry                  |
+| Event System                      |
+| Synchronization                   |
++-----------------------------------+
+                 ↑
++-----------------------------------+
+|      Identity & Access Layer      |
+|-----------------------------------|
+| Auth                              |
+| Users                             |
+| Sessions                          |
+| RBAC                              |
++-----------------------------------+
+                 ↑
++-----------------------------------+
+|        Network Control Layer      |
+|-----------------------------------|
+| QR Onboarding                     |
+| Captive Portal                    |
+| VLAN Management                   |
+| Firewall Policies                 |
+| DNS Routing                       |
++-----------------------------------+
+                 ↑
++-----------------------------------+
+|         Physical Network          |
+|-----------------------------------|
+| Wi-Fi | Ethernet | Switches       |
++-----------------------------------+
+```
+
+---
+
+## Module Philosophy
+
+The LANOS core contains no business logic.
+
+Business functionality is implemented through modules.
+
+Examples:
+
+* Cafe Module
+* Hotel Module
+* Retail Module
+* Event Module
+* Campus Module
+* IoT Module
+
+Modules consume platform services instead of implementing infrastructure themselves.
+
+---
+
+## Example
+
+A Café module should not implement:
+
+* Login
+* Sessions
+* Device management
+* WebSockets
+* Event infrastructure
+* Network onboarding
+
+Those capabilities are already provided by LANOS.
+
+The module only implements:
+
+* Menu management
+* Ordering
+* Tables
+* Kitchen workflow
+
+---
+
+## Goals
+
+* Local-first operation
+* Network-aware applications
+* Modular architecture
+* Offline capability
+* Event-driven communication
+* Real-time interactions
+* Dynamic network control
+* Reusable platform infrastructure
+
+---
+
+## Vision
+
+LANOS is a platform where applications, users, devices, and networks operate as a single system.
+
+Developers build business modules while LANOS provides identity, networking, communication, and runtime infrastructure.
+
+**Tagline**
+
+A local-first operating system for physical spaces.
